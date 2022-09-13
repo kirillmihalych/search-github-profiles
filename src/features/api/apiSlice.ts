@@ -6,7 +6,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.github.com/' }),
   endpoints: (builder) => ({
     getProfilesByName: builder.query<IProfile[], string>({
-      query: (name) => `search/users?q=${name}`,
+      query: (name: string) => `search/users?q=${name}`,
       transformResponse: (rawResult: ServerResponse<IProfile>) => {
         return rawResult.items
       },

@@ -5,11 +5,15 @@ import { useGetProfilesByNameQuery } from './apiSlice'
 
 const ProfilesList = () => {
   const [query, setQuery] = useState<string>('')
+  const [skip, setSkip] = useState<boolean>(true)
 
-  const { isLoading, isSuccess, isError } = useGetProfilesByNameQuery('john')
+  const { isLoading, isSuccess, isError } = useGetProfilesByNameQuery(query, {
+    skip,
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value)
+
   const handleSubmit = (
     e: React.BaseSyntheticEvent<
       Event,
@@ -18,6 +22,11 @@ const ProfilesList = () => {
     >
   ) => {
     e.preventDefault()
+    setSkip(false)
+    setTimeout(() => {
+      setSkip(true)
+      setQuery('')
+    }, 100)
   }
 
   return (
