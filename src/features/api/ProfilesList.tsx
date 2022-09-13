@@ -1,12 +1,35 @@
 import React, { useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import styled from 'styled-components'
+import { useGetProfilesByNameQuery } from './apiSlice'
 
 const ProfilesList = () => {
+  const [query, setQuery] = useState<string>('')
+
+  const { isLoading, isSuccess, isError } = useGetProfilesByNameQuery('john')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setQuery(e.target.value)
+  const handleSubmit = (
+    e: React.BaseSyntheticEvent<
+      Event,
+      EventTarget & HTMLFormElement,
+      EventTarget
+    >
+  ) => {
+    e.preventDefault()
+  }
+
   return (
     <Wrapper>
-      <form className='search-form'>
-        <input type='text' name='search' className='search-input' />
+      <form className='search-form' onSubmit={handleSubmit}>
+        <input
+          type='text'
+          name='search'
+          className='search-input'
+          value={query}
+          onChange={handleChange}
+        />
         <button type='submit' className='btn-search'>
           <BsSearch className='icon-search' />
         </button>
@@ -17,6 +40,7 @@ const ProfilesList = () => {
 }
 
 const Wrapper = styled.section`
+  /* search form styles */
   .search-form {
     width: 95vw;
     max-width: 400px;
